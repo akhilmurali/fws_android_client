@@ -2,14 +2,22 @@ package com.example.firewarningclient;
 
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,8 +35,29 @@ public class MainActivity extends AppCompatActivity {
         if(currentUser != null){
             //Update the UI with a welcome message for the USER.
             welcomeMessageTextView = (TextView) findViewById(R.id.welcome_message);
-            welcomeMessageTextView.setText("Welcome " + currentUser.getEmail());
+            welcomeMessageTextView.setText("Logged In with Email: " + currentUser.getEmail());
         }
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("sample", "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+                        sendRegistrationToServer(token);
+                    }
+                });
+    }
+
+    private void sendRegistrationToServer(String token){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("tokens/" + user.getUid());
+        myRef.setValue(token);
     }
 
     @Override
