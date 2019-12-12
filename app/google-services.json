@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "598161868160",
+    "firebase_url": "https://fire-warning-client.firebaseio.com",
+    "project_id": "fire-warning-client",
+    "storage_bucket": "fire-warning-client.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598161868160:android:ecc4577a764d503e91ad65",
+        "android_client_info": {
+          "package_name": "com.example.firewarningclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598161868160-7b61rd83n6m7lujm4bv2eddufr4ie2c5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.firewarningclient",
+            "certificate_hash": "932f014a33986d748226d954c7f04543330f8831"
+          }
+        },
+        {
+          "client_id": "598161868160-71nhi602nllsucnffbon3uodmre9ih3s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIHT6qpNkIdxOyePZ1ATGpcCcrRmHJmVM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "598161868160-71nhi602nllsucnffbon3uodmre9ih3s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
