@@ -34,8 +34,10 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if(currentUser != null){
             //Update the UI with a welcome message for the USER.
+            String username = currentUser.getEmail().split("@")[0];
+            username = username.substring(0, 1).toUpperCase() + username.substring(1);
             welcomeMessageTextView = (TextView) findViewById(R.id.welcome_message);
-            welcomeMessageTextView.setText("Logged In with Email: " + currentUser.getEmail());
+            welcomeMessageTextView.setText("Welcome " + username + "!");
         }
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
@@ -71,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Request Support", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });

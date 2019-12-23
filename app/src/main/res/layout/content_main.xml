@@ -12,10 +12,129 @@
         android:id="@+id/welcome_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="Welcome "
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.108" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="Sensor Feed:"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_message" />
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:stretchColumns="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <TableRow>
+
+            <TextView
+                android:padding="3dip"
+                android:text="Sensor ID"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/sensor_id"
+                android:gravity="right"
+                android:padding="3dip"
+                android:text="ESP_ESA5490"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:padding="3dip"
+                android:text="Time Stamp"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/timestamp"
+                android:gravity="right"
+                android:padding="3dip"
+                android:text="12:30:28 PM"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:padding="3dip"
+                android:text="MQ2 "
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/mq_reading"
+                android:gravity="right"
+                android:padding="3dip"
+                android:text="360 ppm"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:padding="3dip"
+                android:text="Temperature"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/temperature"
+                android:gravity="right"
+                android:padding="3dip"
+                android:text="36.5"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:padding="3dip"
+                android:text="Humidity"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/humidity"
+                android:gravity="right"
+                android:padding="3dip"
+                android:text="224"
+                android:textSize="12sp" />
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        android:id="@+id/refresh_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:background="@color/flame"
+        android:text="Refresh Data"
+        android:textSize="12sp"
+        android:paddingLeft="40px"
+        android:paddingRight="40px"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
