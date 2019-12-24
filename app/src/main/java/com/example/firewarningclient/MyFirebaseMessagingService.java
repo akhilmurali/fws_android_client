@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public MyFirebaseMessagingService() {
@@ -19,6 +20,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(String token) {
         Log.d("Token", "Refreshed token: " + token);
         sendRegistrationToServer(token);
+    }
+
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        //A data notification is received in here regardless of weather the app is in
+        //foreground or background.
+        remoteMessage.getNotification().getBody();
+        Intent alertIntent = new Intent(this, FireAlertActivity.class);
+        alertIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(alertIntent);
     }
 
     private void sendRegistrationToServer(String token){
