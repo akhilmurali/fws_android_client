@@ -2,18 +2,24 @@ package com.example.firewarningclient;
 
 import android.os.Bundle;
 
+import com.example.firewarningclient.data.model.sensordata;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -21,8 +27,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,6 +85,55 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Request Support", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+            }
+        });
+
+        final TextView sensorIdTV = (TextView) findViewById(R.id.sensor_id);
+        final TextView timestampTV = (TextView) findViewById(R.id.timestamp);
+        final TextView mqTV = (TextView) findViewById(R.id.mq_reading);
+        final TextView temperatureTV = (TextView) findViewById(R.id.temperature);
+        final TextView humidity = (TextView) findViewById(R.id.humidity);
+
+        Button refreshDataBtn = (Button) findViewById(R.id.refresh_data);
+        refreshDataBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                final DatabaseReference sensorDataNodeRef = database.getReference("sensordata/");
+                //Get the latest sensor feed data:
+                ChildEventListener listener = new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        sensordata data = dataSnapshot.getValue(sensordata.class);
+                        sensorIdTV.setText(data.sensorId);
+                        timestampTV.setText(data.timestamp);
+                        mqTV.setText(data.mqppm);
+                        temperatureTV.setText(data.temperature);
+                        humidity.setText(data.humidity + "");
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                };
+                //Read the value data once and limit it to 1 once as this data is time stamp limited.
+                sensorDataNodeRef.orderByKey().limitToFirst(1).addChildEventListener(listener);
             }
         });
     }
